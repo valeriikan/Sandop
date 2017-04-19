@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "446069830268",
+    "firebase_url": "https://sandop-7935b.firebaseio.com",
+    "project_id": "sandop-7935b",
+    "storage_bucket": "sandop-7935b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446069830268:android:e659898e8638def1",
+        "android_client_info": {
+          "package_name": "fi.oulu.mobisocial.sandop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446069830268-mb7vev819ktivpeqspeqd1eq5lgg5veq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fi.oulu.mobisocial.sandop",
+            "certificate_hash": "500310b581944c59e91319f2baeb89bc70fc3483"
+          }
+        },
+        {
+          "client_id": "446069830268-4koavn8l218fvp7ihn9lot4074pmv0vi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXm7xzNxmKLxyl6asVY1LCOEs5BVLuaCQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446069830268-4koavn8l218fvp7ihn9lot4074pmv0vi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
