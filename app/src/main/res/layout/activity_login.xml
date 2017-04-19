@@ -1,18 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp"
     tools:context="fi.oulu.mobisocial.sandop.LoginActivity">
 
     <TextView
+        android:id="@+id/tvSocial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:textColor="#000000"
+        android:text="You can sign up with your own accounts"/>
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/layoutSocial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvSocial"
+        android:layout_marginTop="7dp">
+
+        <ImageView
+            android:id="@+id/imgFacebook"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+        <ImageView
+            android:id="@+id/imgGoogle"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="40dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutSandop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@+id/layoutSignup"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/tvSandop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:text="or with Sandop application account"/>
+
+        <LinearLayout
+            android:id="@+id/layoutSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <Switch
+                android:id="@+id/switchLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"/>
+
+            <TextView
+                android:id="@+id/tvSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:textColor="#000000"
+                android:text="I don't have UniTour account"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/btnSignup"
+        android:layout_marginBottom="15dp">
+
+        <EditText
+            android:id="@+id/etSignupEmail"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center"
+            android:background="@drawable/view_edittext"
+            android:padding="10dp"
+            android:hint="Email"/>
+
+        <EditText
+            android:id="@+id/etSignupPassword"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:background="@drawable/view_edittext"
+            android:padding="10dp"
+            android:hint="Password"/>
+
+        <EditText
+            android:id="@+id/etSignupFirstname"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:background="@drawable/view_edittext"
+            android:padding="10dp"
+            android:hint="First name"/>
+
+        <EditText
+            android:id="@+id/etSignupSecondname"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:background="@drawable/view_edittext"
+            android:padding="10dp"
+            android:hint="Second name"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutLogin"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/btnSignup"
+        android:layout_marginBottom="15dp">
+
+        <EditText
+            android:id="@+id/etLoginEmail"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center"
+            android:background="@drawable/view_edittext"
+            android:padding="10dp"
+            android:hint="Email"/>
+
+        <EditText
+            android:id="@+id/etLoginPassword"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:background="@drawable/view_edittext"
+            android:padding="10dp"
+            android:hint="Password"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/view_button"
+        android:textColor="#000000"
+        android:text="Sign up"/>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:visibility="invisible"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/view_button"
+        android:textColor="#000000"
+        android:text="Sign in"/>
+
+</RelativeLayout>
