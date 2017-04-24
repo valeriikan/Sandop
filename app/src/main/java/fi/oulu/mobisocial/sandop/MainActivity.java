@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     //Firebase authentication objects
     FirebaseAuth mAuth;
 
+    public static ListView productsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,13 +121,26 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            if (position == 1) {
-                return buyFragment;
+            Fragment chosenFragment = new Fragment();
+            switch (position)
+            {
+                case 0: chosenFragment = buyFragment;
+                    break;
+
+                case 1: chosenFragment = sellFragment;
+                    break;
+
+                case 2: chosenFragment = searchFragment;
+                    break;
+            }
+            /*if (position == 0) {
+                return sellFragment;
             }
             if (position == 2) {
                 return searchFragment;
             }
-            return sellFragment;
+            */
+            return chosenFragment;
         }
 
         @Override
