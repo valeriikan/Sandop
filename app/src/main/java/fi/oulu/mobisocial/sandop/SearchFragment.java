@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -66,6 +67,7 @@ public class SearchFragment extends Fragment {
         spCity = (Spinner) v.findViewById(R.id.spCity);
         rbBuy = (RadioButton) v.findViewById(R.id.rbForBuy);
         rbSell = (RadioButton) v.findViewById(R.id.rbForSell);
+        Button btnSearch = (Button) v.findViewById(R.id.btnSearch);
 
         DatabaseReference subRef = dbRef.child("items");
 
@@ -170,21 +172,47 @@ public class SearchFragment extends Fragment {
                 {
                     rbBuy.setChecked(false);
                 }
+                final ArrayList<String> cityList = new ArrayList<String>();
+                String searchType;
+                if (rbBuy.isChecked()) searchType = "buy";
+                else searchType = "sell";
+
+                DatabaseReference childRef = dbRef.child("products").child(searchType);
+
+                childRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        cityList.clear();
+
+                        for(DataSnapshot ds : dataSnapshot.getChildren())
+                        {
+                            Product product = ds.getValue(Product.class);
+                            if (!cityList.contains(product.getCity())) cityList.add(product.getCity());
+                        }
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, cityList);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spCity.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
-        //new listener for city spinner when user selects one city then all related products will be
-        //loaded to listview
-        spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(final AdapterView<?> parent, View view, int position, long id) {
 
+        //what happens when user taps on search button
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 final String department = spDepartments.getSelectedItem().toString();
                 final String category = spCategory.getSelectedItem().toString();
                 String searchType;
                 if (rbBuy.isChecked()) searchType = "buy";
                 else searchType = "sell";
-                final String city = parent.getItemAtPosition(position).toString();
+                final String city = spCity.getSelectedItem().toString();
 
                 final DatabaseReference searchRef = dbRef.child("products").child(searchType);
                 final ArrayList<Product> searchList = new ArrayList<Product>();
@@ -212,10 +240,6 @@ public class SearchFragment extends Fragment {
 
                     }
                 });
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
