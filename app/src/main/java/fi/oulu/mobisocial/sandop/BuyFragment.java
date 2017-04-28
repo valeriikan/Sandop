@@ -46,6 +46,7 @@ public class BuyFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_buy, container, false);
 
         productListView = (ListView) v.findViewById(R.id.lvBuyProducts);
+        productListView.setScrollContainer(true);
 
         sandOppDB = FirebaseDatabase.getInstance().getReference().child("products").child("buy");
 
@@ -65,7 +66,7 @@ public class BuyFragment extends Fragment {
                         TextView tvDescription = (TextView) v.findViewById(R.id.tvProductDescription);
                         ImageView ivImage = (ImageView) v.findViewById(R.id.ivProductImage);
 
-                        tvName.setText("Title: " + model.getName());
+                        tvName.setText(model.getName());
                         tvCity.setText("City: " + model.getCity());
                         tvPrice.setText("Price: " + model.getPrice() + " euro(s)");
                         tvOwner.setText("Buyer: " + model.getOwner());

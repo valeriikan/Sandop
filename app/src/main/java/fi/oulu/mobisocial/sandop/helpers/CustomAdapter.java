@@ -92,10 +92,10 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
         //lastPosition = position;
 
 
-        viewHolder.tvName.setText("Title: " + dataModel.getName());
+        viewHolder.tvName.setText(dataModel.getName());
         viewHolder.tvCity.setText("City: " + dataModel.getCity());
         viewHolder.tvOwner.setText("Owner: " + dataModel.getOwner());
-        viewHolder.tvPrice.setText("Price : " + dataModel.getPrice() + "euro(s)");
+        viewHolder.tvPrice.setText("Price : " + dataModel.getPrice() + " euro(s)");
         viewHolder.tvDescription.setText("Description: " + dataModel.getDescription());
         Picasso.with(getContext()).load(dataModel.getImage()).resize(100,100).into(viewHolder.ivImage);
         //viewHolder.ivImage.setOnClickListener(this);

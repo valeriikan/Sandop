@@ -56,7 +56,7 @@ public class SellFragment extends Fragment{
                 TextView tvDescription = (TextView) v.findViewById(R.id.tvProductDescription);
                 ImageView ivImage = (ImageView) v.findViewById(R.id.ivProductImage);
 
-                tvName.setText("Title: " + model.getName());
+                tvName.setText(model.getName());
                 tvCity.setText("City: " + model.getCity());
                 tvPrice.setText("Price: " + model.getPrice() + " euro(s)");
                 tvOwner.setText("Seller: " + model.getOwner());
