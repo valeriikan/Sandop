@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -7,42 +8,59 @@
     <ImageView
         android:id="@+id/ivProductImage"
         android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_height="106dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:id="@+id/tvProductName"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/tvProductName"
+                android:layout_width="216dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/ibtnFavourite"
+                style="@android:style/Widget.ImageButton"
+                android:layout_width="31dp"
+                android:layout_height="40dp"
+                app:srcCompat="@android:drawable/btn_star"/>
+
+        </LinearLayout>
 
         <TextView
-            android:layout_marginLeft="10dp"
             android:id="@+id/tvProductCity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp" />
 
         <TextView
-            android:layout_marginLeft="10dp"
             android:id="@+id/tvProductOwner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp" />
 
         <TextView
-            android:layout_marginLeft="10dp"
             android:id="@+id/tvProductPrice"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp" />
 
         <TextView
-            android:layout_marginLeft="10dp"
             android:id="@+id/tvProductDescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp" />
     </LinearLayout>
 </LinearLayout>

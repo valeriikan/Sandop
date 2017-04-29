@@ -1,20 +1,14 @@
 package fi.oulu.mobisocial.sandop;
 
-import android.*;
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,13 +32,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
-import fi.oulu.mobisocial.sandop.helpers.UploadImageActivity;
-import fi.oulu.mobisocial.sandop.helpers.User;
 import fi.oulu.mobisocial.sandop.helpers.Product;
 
 /**
@@ -60,6 +49,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
     //firebase database reference
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
+    //declaration of spinners
     Spinner spDep;
     Spinner spCat;
     Spinner spCity;
@@ -116,9 +106,6 @@ public class NewAdvertismentActivity extends AppCompatActivity {
         btnUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent upload = new Intent(getApplicationContext(), UploadImageActivity.class);
-                startActivity(upload);
-                */
                 Intent i = new Intent(
                         Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 

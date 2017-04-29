@@ -22,6 +22,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginTop="12dp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,13 +34,15 @@
             android:layout_marginLeft="12dp"
             android:layout_marginTop="12dp"
             android:text="Product Department" />
+
         <Spinner
+            android:id="@+id/spAdDepartment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spAdDepartment"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="12dp" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

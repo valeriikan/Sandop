@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import fi.oulu.mobisocial.sandop.helpers.CustomAdapter;
 import fi.oulu.mobisocial.sandop.helpers.Product;
 
+import static android.R.attr.category;
 import static fi.oulu.mobisocial.sandop.R.id.spDepartment;
 
 
@@ -75,14 +76,7 @@ public class SearchFragment extends Fragment {
         subRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> itemList = new ArrayList<String>();
-                for(DataSnapshot ds: dataSnapshot.getChildren())
-                {
-                    itemList.add(ds.getKey());
-                }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, itemList);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spDepartments.setAdapter(adapter);
+                loadItemsToSpinnerbyKey(dataSnapshot, spDepartments);
             }
 
             @Override
@@ -96,27 +90,16 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 final String selectedDepartment = parent.getItemAtPosition(position).toString();
-                final ArrayList<String> categoryList = new ArrayList<String>();
-
                 DatabaseReference childRef = dbRef.child("items").child(selectedDepartment);
 
                 childRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        categoryList.clear();
-
-                        for(DataSnapshot ds : dataSnapshot.getChildren())
-                        {
-                            categoryList.add(ds.getValue(String.class));
-                        }
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item,categoryList);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spCategory.setAdapter(adapter);
+                        loadItemsToSpinnerbyValue(dataSnapshot, spCategory);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
             }
@@ -134,7 +117,7 @@ public class SearchFragment extends Fragment {
                 {
                     rbSell.setChecked(false);
                 }
-                final ArrayList<String> cityList = new ArrayList<String>();
+
                 String searchType;
                 if (rbBuy.isChecked()) searchType = "buy";
                 else searchType = "sell";
@@ -144,21 +127,11 @@ public class SearchFragment extends Fragment {
                 childRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        cityList.clear();
-
-                        for(DataSnapshot ds : dataSnapshot.getChildren())
-                        {
-                            Product product = ds.getValue(Product.class);
-                            if (!cityList.contains(product.getCity())) cityList.add(product.getCity());
-                        }
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, cityList);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spCity.setAdapter(adapter);
+                        loadItemsToSpinnerbyProduct(dataSnapshot, spCity);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
             }
@@ -172,7 +145,7 @@ public class SearchFragment extends Fragment {
                 {
                     rbBuy.setChecked(false);
                 }
-                final ArrayList<String> cityList = new ArrayList<String>();
+
                 String searchType;
                 if (rbBuy.isChecked()) searchType = "buy";
                 else searchType = "sell";
@@ -182,21 +155,11 @@ public class SearchFragment extends Fragment {
                 childRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        cityList.clear();
-
-                        for(DataSnapshot ds : dataSnapshot.getChildren())
-                        {
-                            Product product = ds.getValue(Product.class);
-                            if (!cityList.contains(product.getCity())) cityList.add(product.getCity());
-                        }
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, cityList);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spCity.setAdapter(adapter);
+                        loadItemsToSpinnerbyProduct(dataSnapshot, spCity);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
             }
@@ -215,29 +178,15 @@ public class SearchFragment extends Fragment {
                 final String city = spCity.getSelectedItem().toString();
 
                 final DatabaseReference searchRef = dbRef.child("products").child(searchType);
-                final ArrayList<Product> searchList = new ArrayList<Product>();
 
                 searchRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            Product product = ds.getValue(Product.class);
-
-                            if (department.equals(product.getDepartment()) && category.equals(product.getType())
-                                    && city.equals(product.getCity()))
-                            {
-                                Log.i("Product: " , product.getName());
-                                searchList.add(product);
-                            }
-                        }
-
-                        CustomAdapter adapter = new CustomAdapter(searchList,getContext());
-                        lvSearch.setAdapter(adapter);
+                        searchItems(dataSnapshot, lvSearch, department, category, city);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
 
@@ -256,5 +205,60 @@ public class SearchFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
 
+    }
+
+    private void loadItemsToSpinnerbyKey(DataSnapshot dataSnapshot, Spinner spinner)
+    {
+        ArrayList<String> itemList = new ArrayList<String>();
+        for(DataSnapshot ds: dataSnapshot.getChildren())
+        {
+            itemList.add(ds.getKey());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, itemList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    private void loadItemsToSpinnerbyValue(DataSnapshot dataSnapshot, Spinner spinner)
+    {
+        ArrayList<String> itemList = new ArrayList<String>();
+        for(DataSnapshot ds: dataSnapshot.getChildren())
+        {
+            itemList.add(ds.getValue(String.class));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, itemList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    private void loadItemsToSpinnerbyProduct(DataSnapshot dataSnapshot, Spinner spinner)
+    {
+        ArrayList<String> itemList = new ArrayList<String>();
+        for(DataSnapshot ds: dataSnapshot.getChildren())
+        {
+            Product product = ds.getValue(Product.class);
+            if (!itemList.contains(product.getCity())) itemList.add(product.getCity());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, itemList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    private void searchItems(DataSnapshot dataSnapshot, ListView listView, String department, String category, String city)
+    {
+        final ArrayList<Product> searchList = new ArrayList<Product>();
+
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            Product product = ds.getValue(Product.class);
+
+            if (department.equals(product.getDepartment()) && category.equals(product.getType())
+                    && city.equals(product.getCity()))
+            {
+                searchList.add(product);
+            }
+        }
+
+        CustomAdapter adapter = new CustomAdapter(searchList,getContext());
+        listView.setAdapter(adapter);
     }
 }

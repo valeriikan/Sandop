@@ -13,10 +13,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
+import fi.oulu.mobisocial.sandop.helpers.CustomAdapter;
 import fi.oulu.mobisocial.sandop.helpers.Product;
 
 
@@ -36,37 +42,23 @@ public class SellFragment extends Fragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_sell, container, false);
         productListView = (ListView) v.findViewById(R.id.lvSellProducts);
 
         sandOppDB = FirebaseDatabase.getInstance().getReference().child("products").child("sell");
-
-        FirebaseListAdapter<Product> listAdapter = new FirebaseListAdapter<Product>(getActivity(),Product.class,
-                R.layout.row_model,sandOppDB) {
+        sandOppDB.addValueEventListener(new ValueEventListener() {
             @Override
-            protected void populateView(View v, Product model, int position) {
-
-                TextView tvName = (TextView) v.findViewById(R.id.tvProductName);
-                TextView tvCity = (TextView) v.findViewById(R.id.tvProductCity);
-                TextView tvPrice = (TextView) v.findViewById(R.id.tvProductPrice);
-                TextView tvOwner = (TextView) v.findViewById(R.id.tvProductOwner);
-                TextView tvDescription = (TextView) v.findViewById(R.id.tvProductDescription);
-                ImageView ivImage = (ImageView) v.findViewById(R.id.ivProductImage);
-
-                tvName.setText(model.getName());
-                tvCity.setText("City: " + model.getCity());
-                tvPrice.setText("Price: " + model.getPrice() + " euro(s)");
-                tvOwner.setText("Seller: " + model.getOwner());
-                tvDescription.setText("Description: " + model.getDescription());
-                Picasso.with(getContext())
-                        .load(model.getImage())
-                        .resize(100,100).into(ivImage);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                loadItemsToListView(dataSnapshot, productListView);
             }
-        };
-        productListView.setAdapter(listAdapter);
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return v;
     }
 
@@ -84,6 +76,18 @@ public class SellFragment extends Fragment{
     @Override
     public void onDetach() {
         super.onDetach();
+    }
 
+    private void loadItemsToListView(DataSnapshot dataSnapshot, ListView listView)
+    {
+        ArrayList<Product> list = new ArrayList<Product>();
+
+        for (DataSnapshot ds : dataSnapshot.getChildren())
+        {
+            Product product = ds.getValue(Product.class);
+            list.add(product);
+        }
+        CustomAdapter adapter = new CustomAdapter(list,getContext());
+        listView.setAdapter(adapter);
     }
 }
