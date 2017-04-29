@@ -87,7 +87,7 @@ public class SellFragment extends Fragment{
             Product product = ds.getValue(Product.class);
             list.add(product);
         }
-        CustomAdapter adapter = new CustomAdapter(list,getContext());
+        CustomAdapter adapter = new CustomAdapter(list, getContext());
         listView.setAdapter(adapter);
     }
 }
