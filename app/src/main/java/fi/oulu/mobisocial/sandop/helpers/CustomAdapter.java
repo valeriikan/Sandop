@@ -5,6 +5,7 @@ package fi.oulu.mobisocial.sandop.helpers;
  */
 
 import android.content.Context;
+import android.graphics.drawable.Icon;
 import android.view.View;
 
 import android.content.Context;
@@ -19,10 +20,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -97,7 +102,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
             viewHolder.tvDescription = (TextView) convertView.findViewById(R.id.tvProductDescription);
             viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivProductImage);
             viewHolder.ibtnFav = (ImageButton) convertView.findViewById(R.id.ibtnFavourite);
-            viewHolder.ibtnFav.setBackgroundColor(10);
+            setFavStatus(viewHolder, dataSet.get(position));
             viewHolder.ibtnFav.setTag(position);
 
             result = convertView;
@@ -129,19 +134,78 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
             public void onClick(View v) {
                 int position = (Integer) v.getTag();
                 Product product = (Product) getItem(position);
-                addToFavourite(product);
-                viewHolder.ibtnFav.setBackgroundColor(10);
+                addToFavourite(product, viewHolder);
+
             }
         });
         return convertView;
     }
 
-    private void addToFavourite(Product product)
+    private void addToFavourite(final Product product, final ViewHolder holder)
     {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String userID = auth.getCurrentUser().getUid().toString();
 
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID).child("favourite");
-        dbRef.push().setValue(product);
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID).child("favourite");
+
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean isExisted = false;
+                for (DataSnapshot ds : dataSnapshot.getChildren())
+                {
+                    String key = ds.getKey();
+                    Product inFavProduct = ds.getValue(Product.class);
+                    if (inFavProduct.isEqual(product)) {
+                        isExisted = true;
+                        dbRef.child(key).removeValue();
+                        //Toast.makeText(getContext(), "You have already added this product to your favourite list", Toast.LENGTH_SHORT).show();
+                        holder.ibtnFav.setImageResource(R.drawable.empty_star);
+                        break;
+                    }
+                }
+                if (!isExisted)
+                {
+                    dbRef.push().setValue(product);
+                    holder.ibtnFav.setImageResource(R.drawable.yellow_star);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setFavStatus(final ViewHolder holder , final Product product)
+    {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String userID = auth.getCurrentUser().getUid().toString();
+        holder.ibtnFav.setBackgroundColor(10);
+
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID).child("favourite");
+
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean isExisted = false;
+                for (DataSnapshot ds : dataSnapshot.getChildren())
+                {
+                    Product inFavProduct = ds.getValue(Product.class);
+                    if (inFavProduct.isEqual(product)) {
+                        isExisted = true;
+                        holder.ibtnFav.setImageResource(R.drawable.yellow_star);
+                        break;
+                    }
+                }
+                if (!isExisted) holder.ibtnFav.setImageResource(R.drawable.empty_star);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

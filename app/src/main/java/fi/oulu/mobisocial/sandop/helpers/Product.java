@@ -1,5 +1,6 @@
 package fi.oulu.mobisocial.sandop.helpers;
 
+import android.util.Log;
 import android.widget.Spinner;
 
 /**
@@ -86,4 +87,34 @@ public class Product {
     }
     public void setDepartment(String pDepartment) {department = pDepartment;}
     public void setType(String pType) {type = pType;}
+
+    public boolean isEqual(Product product)
+    {
+        boolean state = false;
+
+        if (product.getOwner().equals(owner))
+        {
+            if (product.getName().equals(name))
+            {
+                if (product.getCity().equals(city))
+                {
+                    if (product.getImage().equals(image))
+                    {
+                        if (product.getDepartment().equals(department))
+                        {
+                            if (product.getDescription().equals(description))
+                            {
+                                if (product.getPrice().equals(price))
+                                {
+                                    if (product.getType().equals(type)) state = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return state;
+    }
 }
