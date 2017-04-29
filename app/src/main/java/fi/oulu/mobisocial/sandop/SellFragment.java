@@ -6,9 +6,31 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+import fi.oulu.mobisocial.sandop.helpers.CustomAdapter;
+import fi.oulu.mobisocial.sandop.helpers.Product;
 
 
-public class SellFragment extends Fragment {
+public class SellFragment extends Fragment{
+
+    private DatabaseReference sandOppDB;
+
+    public ListView productListView;
 
     public SellFragment() {
         // Required empty public constructor
@@ -17,27 +39,55 @@ public class SellFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_sell, container, false);
+        productListView = (ListView) v.findViewById(R.id.lvSellProducts);
 
+        sandOppDB = FirebaseDatabase.getInstance().getReference().child("products").child("sell");
+        sandOppDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                loadItemsToListView(dataSnapshot, productListView);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+    }
 
+    private void loadItemsToListView(DataSnapshot dataSnapshot, ListView listView)
+    {
+        ArrayList<Product> list = new ArrayList<Product>();
+
+        for (DataSnapshot ds : dataSnapshot.getChildren())
+        {
+            Product product = ds.getValue(Product.class);
+            list.add(product);
+        }
+        CustomAdapter adapter = new CustomAdapter(list,getContext());
+        listView.setAdapter(adapter);
     }
 }

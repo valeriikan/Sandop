@@ -6,9 +6,29 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+import fi.oulu.mobisocial.sandop.helpers.CustomAdapter;
+import fi.oulu.mobisocial.sandop.helpers.Product;
 
 
 public class BuyFragment extends Fragment {
+
+    private DatabaseReference sandOppDB;
+
+    public ListView productListView;
 
     public BuyFragment() {
         // Required empty public constructor
@@ -17,7 +37,6 @@ public class BuyFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -26,18 +45,44 @@ public class BuyFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_buy, container, false);
 
+        productListView = (ListView) v.findViewById(R.id.lvBuyProducts);
+        productListView.setScrollContainer(true);
+
+        sandOppDB = FirebaseDatabase.getInstance().getReference().child("products").child("buy");
+
+        sandOppDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                loadItemsToListView(dataSnapshot, productListView);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
         return v;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+    }
 
+    private void loadItemsToListView(DataSnapshot dataSnapshot, ListView listView)
+    {
+        ArrayList<Product> list = new ArrayList<Product>();
+
+        for (DataSnapshot ds : dataSnapshot.getChildren())
+        {
+            Product product = ds.getValue(Product.class);
+            list.add(product);
+        }
+        CustomAdapter adapter = new CustomAdapter(list,getContext());
+        listView.setAdapter(adapter);
     }
 }
