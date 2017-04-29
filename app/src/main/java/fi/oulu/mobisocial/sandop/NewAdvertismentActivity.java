@@ -36,6 +36,8 @@ import java.util.ArrayList;
 
 import fi.oulu.mobisocial.sandop.helpers.Product;
 
+import static android.R.attr.type;
+
 /**
  * Created by Majid on 4/26/2017.
  */
@@ -215,9 +217,28 @@ public class NewAdvertismentActivity extends AppCompatActivity {
         });
     }
 
-    private String getOwnerName()
+    private String setAttributesAndInsert(final String type, final String name, final String city,
+                                         final String image, final String price,
+                                         final String description, final String department, final String category)
     {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userID = user.getUid();
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userName = dataSnapshot.child("name").getValue(String.class);
+                DatabaseReference childRef = FirebaseDatabase.getInstance().getReference().child("products").child(type);
+                Product newProduct = new Product(userName, name, city, image, price, description, department, category);
+                childRef.push().setValue(newProduct);
+                finish();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return user.getDisplayName();
     }
 
@@ -285,16 +306,13 @@ public class NewAdvertismentActivity extends AppCompatActivity {
                 department = spDep.getSelectedItem().toString();
                 category = spCat.getSelectedItem().toString();
                 name = etName.getText().toString();
-                owner = getOwnerName(); //// TODO: 4/26/2017 adding the code of owner
-                image = productImageURL.toString(); //// TODO: 4/26/2017 adding the code of image
+                image = productImageURL.toString();
+                owner = "";
                 price = etPrice.getText().toString();
                 city = spCity.getSelectedItem().toString();
                 description = etDesc.getText().toString();
 
-                DatabaseReference childRef = dbRef.child("products").child(type);
-                Product newProduct = new Product(owner, name, city, image, price, description, department, category);
-                childRef.push().setValue(newProduct);
-                finish();
+                setAttributesAndInsert(type, name, city, image, price, description, department, category);
             }
         });
     }
