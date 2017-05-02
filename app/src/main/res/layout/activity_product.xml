@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fi.oulu.mobisocial.sandop.ProductActivity">
+
+    <RelativeLayout
+        android:id="@+id/productContent"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/imgProduct"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="5dp"/>
+        
+        <TextView
+            android:id="@+id/tvDetailName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgProduct"
+            android:text="Product name"/>
+
+
+        <TextView
+            android:id="@+id/tvDetailDepartmentType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDetailName"
+            android:text="Department - type"/>
+
+        <TextView
+            android:id="@+id/tvDetailCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDetailDepartmentType"
+            android:text="City"/>
+
+        <TextView
+            android:id="@+id/tvDetailSince"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDetailDepartmentType"
+            android:layout_alignParentRight="true"
+            android:text="After 02.05.17"/>
+
+        <TextView
+            android:id="@+id/tvDetailOwner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDetailCity"
+            android:text="Owner"/>
+
+        <TextView
+            android:id="@+id/tvDetailPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDetailCity"
+            android:layout_alignParentRight="true"
+            android:text="Price"/>
+
+        <TextView
+            android:id="@+id/tvDetailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDetailOwner"
+            android:text="Description"/>
+
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/productLoading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>
