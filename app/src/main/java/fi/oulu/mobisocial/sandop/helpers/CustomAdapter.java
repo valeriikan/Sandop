@@ -34,6 +34,8 @@ import java.util.ArrayList;
 
 import fi.oulu.mobisocial.sandop.R;
 
+import static android.R.id.list;
+
 public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClickListener{
 
     private ArrayList<Product> dataSet;
@@ -41,6 +43,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
 
     // View lookup cache
     private static class ViewHolder {
+        int position;
         TextView tvName;
         TextView tvCity;
         TextView tvOwner;
@@ -50,7 +53,9 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
         ImageButton ibtnFav;
 
         public ViewHolder()
-        {}
+        {
+            //position = 0;
+        }
 
         public ViewHolder(View v)
         {
@@ -61,6 +66,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
             this.tvDescription = (TextView) v.findViewById(R.id.tvProductDescription);
             this.ivImage = (ImageView) v.findViewById(R.id.ivProductImage);
             this.ibtnFav = (ImageButton) v.findViewById(R.id.ibtnFavourite);
+
         }
     }
 
@@ -82,7 +88,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
     private int lastPosition = -1;
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
         // Get the data item for this position
         Product dataModel = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
@@ -102,9 +108,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
             viewHolder.tvDescription = (TextView) convertView.findViewById(R.id.tvProductDescription);
             viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivProductImage);
             viewHolder.ibtnFav = (ImageButton) convertView.findViewById(R.id.ibtnFavourite);
-            setFavStatus(viewHolder, dataSet.get(position));
-            viewHolder.ibtnFav.setTag(position);
-
+            viewHolder.position = position;
             result = convertView;
 
             convertView.setTag(viewHolder);
@@ -112,7 +116,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
             viewHolder = (ViewHolder) convertView.getTag();
             result = convertView;
         }
-
+        //setFavouriteStatus(viewHolder, dataSet.get(position));
         Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
         result.startAnimation(animation);
         lastPosition = position;
@@ -125,20 +129,18 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
         viewHolder.tvDescription.setText("Description: " + dataModel.getDescription());
         Picasso.with(getContext()).load(dataModel.getImage()).resize(100,100).into(viewHolder.ivImage);
 
-        viewHolder.ivImage.setOnClickListener(this);
-        viewHolder.ivImage.setTag(position);
         // Return the completed view to render on screen
-
+        setFavouriteStatus(viewHolder, dataModel);
         viewHolder.ibtnFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = (Integer) v.getTag();
-                Product product = (Product) getItem(position);
+                //int position = (Integer) v.getTag();
+                Log.i("onClick", String.valueOf(viewHolder.position));
+                Product product = (Product) getItem(viewHolder.position);
                 addToFavourite(product, viewHolder);
-
             }
         });
-        return convertView;
+        return result;
     }
 
     private void addToFavourite(final Product product, final ViewHolder holder)
@@ -159,7 +161,6 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
                     if (inFavProduct.isEqual(product)) {
                         isExisted = true;
                         dbRef.child(key).removeValue();
-                        //Toast.makeText(getContext(), "You have already added this product to your favourite list", Toast.LENGTH_SHORT).show();
                         holder.ibtnFav.setImageResource(R.drawable.empty_star);
                         break;
                     }
@@ -178,7 +179,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
         });
     }
 
-    private void setFavStatus(final ViewHolder holder , final Product product)
+    private void setFavouriteStatus(final ViewHolder holder , final Product product)
     {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String userID = auth.getCurrentUser().getUid().toString();
@@ -186,7 +187,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
 
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID).child("favourite");
 
-        dbRef.addValueEventListener(new ValueEventListener() {
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean isExisted = false;

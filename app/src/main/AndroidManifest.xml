@@ -38,6 +38,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ProductActivity" />
 		<activity android:name=".ShowFavouriteActivity" />
+        <activity android:name=".UserOffersActivity" />
     </application>
 
 </manifest>
