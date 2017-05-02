@@ -36,6 +36,7 @@ import java.util.ArrayList;
 
 import fi.oulu.mobisocial.sandop.helpers.Product;
 
+import static android.R.attr.cacheColorHint;
 import static android.R.attr.type;
 
 /**
@@ -95,7 +96,14 @@ public class NewAdvertismentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (spDep.getSelectedItemPosition() >= 0 && spCat.getSelectedItemPosition() >= 0 && spCity.getSelectedItemPosition() >= 0) {
                     if (!etName.getText().equals("") && !etPrice.getText().equals("") && !etDesc.getText().equals("")) {
-                        addNewAdvertisment(imagePath);
+                        switch (spType.getSelectedItem().toString())
+                        {
+                            case "sell": addNewSellAdvertisment(imagePath);
+                                break;
+                            case "buy" : addNewBuyAdvertisment();
+                                break;
+                        }
+
                     } else
                         Toast.makeText(getApplicationContext(), "One of fields is empty! please fill them all and try again", Toast.LENGTH_LONG).show();
                 }
@@ -114,8 +122,11 @@ public class NewAdvertismentActivity extends AppCompatActivity {
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
-        //adding buy or sell options to ad type spinner
+        //adding buy or sell options to advertisement type spinner
         setTypeItems();
+
+        //if user selects buy the upload image will be disabled
+        disableUploadImage(spType, btnUploadImage);
 
         //load departments to department spinner
         loadDepartments();
@@ -157,7 +168,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
                 {
                     list.add(ds.getKey());
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_item, list);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewAdvertismentActivity.this, android.R.layout.simple_spinner_item, list);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spDep.setAdapter(adapter);
             }
@@ -181,7 +192,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
                 {
                     list.add(ds.getValue(String.class));
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_item, list);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewAdvertismentActivity.this, android.R.layout.simple_spinner_item, list);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spCity.setAdapter(adapter);
             }
@@ -205,7 +216,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
                 {
                     list.add(ds.getValue(String.class));
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_item, list);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewAdvertismentActivity.this, android.R.layout.simple_spinner_item, list);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spCat.setAdapter(adapter);
             }
@@ -261,7 +272,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
         }
     }
 
-    private void addNewAdvertisment(String filePath)
+    private void addNewSellAdvertisment(String filePath)
     {
         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -312,7 +323,38 @@ public class NewAdvertismentActivity extends AppCompatActivity {
                 city = spCity.getSelectedItem().toString();
                 description = etDesc.getText().toString();
 
+                if (type.equals("buy")) image = "https://firebasestorage.googleapis.com/v0/b/sandop-7935b.appspot.com/o/images%2Fwanted.jpg?alt=media&token=e51ba39a-73a0-4b39-a1eb-43e50311deb4";
                 setAttributesAndInsert(type, name, city, image, price, description, department, category);
+            }
+        });
+    }
+
+    private void addNewBuyAdvertisment() {
+        String department, category, name, owner, price, city, description, image;
+
+        department = spDep.getSelectedItem().toString();
+        category = spCat.getSelectedItem().toString();
+        name = etName.getText().toString();
+        image = "https://firebasestorage.googleapis.com/v0/b/sandop-7935b.appspot.com/o/images%2Fwanted.jpg?alt=media&token=e51ba39a-73a0-4b39-a1eb-43e50311deb4";
+        owner = "";
+        price = etPrice.getText().toString();
+        city = spCity.getSelectedItem().toString();
+        description = etDesc.getText().toString();
+
+        setAttributesAndInsert("buy", name, city, image, price, description, department, category);
+    }
+    private void disableUploadImage(Spinner spinner, final Button button)
+    {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getSelectedItem().equals("buy")) button.setEnabled(false);
+                else button.setEnabled(true);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }

@@ -64,27 +64,6 @@
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rbForBuy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-                android:text="For Buy" />
-
-            <RadioButton
-                android:id="@+id/rbForSell"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:text="For Sell" />
-        </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -97,26 +76,46 @@
                 android:layout_alignStart="@+id/textView2"
                 android:layout_below="@+id/textView2"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:text="City" />
 
             <Spinner
                 android:id="@+id/spCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="20dp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbForBuy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:text="For Buy"
+                android:layout_marginTop="10dp"/>
+
+            <RadioButton
+                android:id="@+id/rbForSell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="For Sell"
+                android:layout_marginTop="10dp"/>
         </LinearLayout>
 
         <Button
             android:id="@+id/btnSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search" />
-
-
+            android:text="Search"
+            android:layout_marginTop="20dp"/>
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/textView5"

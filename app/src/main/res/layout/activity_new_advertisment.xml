@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,15 +13,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"
-            android:text="Advertisment Type" />
-
-        <Spinner
-            android:id="@+id/spAdType"
+            android:layout_marginTop="20dp"
+            android:text="Name" />
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp" />
+            android:id="@+id/etAdName"
+            android:layout_marginTop="20dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -32,46 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"
-            android:text="Product Department" />
-
-        <Spinner
-            android:id="@+id/spAdDepartment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"
-            android:text="Product Category" />
-
-        <Spinner
-            android:id="@+id/spAdCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="30dp"
             android:text="City" />
 
         <Spinner
@@ -79,20 +39,22 @@
             android:layout_width="134dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="30dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="30dp"
             android:text="Price" />
 
         <EditText
             android:layout_width="116dp"
             android:layout_height="wrap_content"
-            android:id="@+id/etAdPrice"/>
+            android:id="@+id/etAdPrice"
+            android:layout_marginTop="30dp"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,13 +64,58 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"
-            android:text="Name" />
-        <EditText
+            android:layout_marginTop="30dp"
+            android:text="Advertisment Type" />
+
+        <Spinner
+            android:id="@+id/spAdType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/etAdName"/>
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="30dp" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="30dp"
+            android:text="Product Department" />
+
+        <Spinner
+            android:id="@+id/spAdDepartment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="30dp"
+            android:text="Product Category" />
+
+        <Spinner
+            android:id="@+id/spAdCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="30dp" />
+    </LinearLayout>
+
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -121,7 +128,7 @@
         android:id="@+id/etAdDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.53"
+        android:layout_weight="0.87"
         android:ems="10"
         android:inputType="textMultiLine" />
 
