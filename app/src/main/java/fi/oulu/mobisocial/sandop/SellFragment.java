@@ -1,8 +1,10 @@
 package fi.oulu.mobisocial.sandop;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,8 @@ public class SellFragment extends Fragment{
 
     public ListView productListView;
 
+    private ArrayList<String> link = new ArrayList<>();
+
     public SellFragment() {
         // Required empty public constructor
     }
@@ -45,7 +49,17 @@ public class SellFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_sell, container, false);
+
         productListView = (ListView) v.findViewById(R.id.lvSellProducts);
+        productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String ref = "sell/" + link.get(i);
+                Intent intent = new Intent(getContext(), ProductActivity.class);
+                intent.putExtra("PRODUCT", ref);
+                startActivity(intent);
+            }
+        });
 
         sandOppDB = FirebaseDatabase.getInstance().getReference().child("products").child("sell");
         sandOppDB.addValueEventListener(new ValueEventListener() {
@@ -85,9 +99,10 @@ public class SellFragment extends Fragment{
         for (DataSnapshot ds : dataSnapshot.getChildren())
         {
             Product product = ds.getValue(Product.class);
+            link.add(ds.getKey());
             list.add(product);
         }
-        CustomAdapter adapter = new CustomAdapter(list,getContext());
+        CustomAdapter adapter = new CustomAdapter(list, getContext());
         listView.setAdapter(adapter);
     }
 }

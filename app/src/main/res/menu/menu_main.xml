@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="fi.oulu.mobisocial.sandop.MainActivity">
     <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ui_user"
+        android:orderInCategory="100"
+        android:title="Profile"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_logout"
         android:orderInCategory="100"
         android:title="Log out"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_exit"
-        android:orderInCategory="100"
-        android:title="Exit"
-        app:showAsAction="never" />
+
 </menu>

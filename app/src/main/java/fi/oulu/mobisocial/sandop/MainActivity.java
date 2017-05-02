@@ -1,6 +1,7 @@
 package fi.oulu.mobisocial.sandop;
 
 import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +51,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Add new onClick for imagebutton in toolbar
+        ImageButton showFav = (ImageButton) findViewById(R.id.ibtnShowMyFavourite);
+        showFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent favIntent = new Intent(getApplicationContext(), ShowFavouriteActivity.class);
+                startActivity(favIntent);
+            }
+        });
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -72,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
+
     }
 
 
@@ -95,16 +108,18 @@ public class MainActivity extends AppCompatActivity {
                 // sign out
                 mAuth.signOut();
                 Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                Intent logout = new Intent(MainActivity.this, LoginActivity.class);
+                logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(logout);
                 break;
 
-            case R.id.action_exit:
-                // close app
-                finish();
-                System.exit(0);
+            case R.id.action_profile:
+                // open user profile page
+                Intent profile = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(profile);
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -134,13 +149,6 @@ public class MainActivity extends AppCompatActivity {
                 case 2: chosenFragment = searchFragment;
                     break;
             }
-            /*if (position == 0) {
-                return sellFragment;
-            }
-            if (position == 2) {
-                return searchFragment;
-            }
-            */
             return chosenFragment;
         }
 

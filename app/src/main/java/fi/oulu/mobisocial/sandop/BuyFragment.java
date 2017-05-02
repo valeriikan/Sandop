@@ -1,11 +1,14 @@
 package fi.oulu.mobisocial.sandop;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,6 +33,8 @@ public class BuyFragment extends Fragment {
 
     public ListView productListView;
 
+    private ArrayList<String> link = new ArrayList<>();
+
     public BuyFragment() {
         // Required empty public constructor
     }
@@ -47,6 +52,15 @@ public class BuyFragment extends Fragment {
 
         productListView = (ListView) v.findViewById(R.id.lvBuyProducts);
         productListView.setScrollContainer(true);
+        productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String ref = "buy/" + link.get(i);
+                Intent intent = new Intent(getContext(), ProductActivity.class);
+                intent.putExtra("PRODUCT", ref);
+                startActivity(intent);
+            }
+        });
 
         sandOppDB = FirebaseDatabase.getInstance().getReference().child("products").child("buy");
 
@@ -80,6 +94,7 @@ public class BuyFragment extends Fragment {
         for (DataSnapshot ds : dataSnapshot.getChildren())
         {
             Product product = ds.getValue(Product.class);
+            link.add(ds.getKey());
             list.add(product);
         }
         CustomAdapter adapter = new CustomAdapter(list,getContext());

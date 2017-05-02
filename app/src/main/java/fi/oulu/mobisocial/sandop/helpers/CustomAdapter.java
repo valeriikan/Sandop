@@ -186,7 +186,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
 
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID).child("favourite");
 
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean isExisted = false;
