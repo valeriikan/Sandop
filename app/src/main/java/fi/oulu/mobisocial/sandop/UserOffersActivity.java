@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import fi.oulu.mobisocial.sandop.helpers.CustomAdapter;
+import fi.oulu.mobisocial.sandop.helpers.ProductAdapter;
 import fi.oulu.mobisocial.sandop.helpers.Product;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
@@ -89,7 +89,7 @@ public class UserOffersActivity extends AppCompatActivity{
                         link.add(ds.getKey());
                     }
                 }
-                CustomAdapter adapter = new CustomAdapter(list, UserOffersActivity.this);
+                ProductAdapter adapter = new ProductAdapter(list, UserOffersActivity.this);
                 lvUserOffers.setAdapter(adapter);
             }
 
@@ -111,7 +111,7 @@ public class UserOffersActivity extends AppCompatActivity{
                         link.add(ds.getKey());
                     }
                 }
-                CustomAdapter adapter = new CustomAdapter(list, UserOffersActivity.this);
+                ProductAdapter adapter = new ProductAdapter(list, UserOffersActivity.this);
                 lvUserOffers.setAdapter(adapter);
             }
 
