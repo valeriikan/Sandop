@@ -1,7 +1,5 @@
 package fi.oulu.mobisocial.sandop;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -13,19 +11,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     //Firebase authentication objects
     FirebaseAuth mAuth;
 
-    public static ListView productsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +42,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Add new onClick for imagebutton in toolbar
-        ImageButton showFav = (ImageButton) findViewById(R.id.ibtnShowMyFavourite);
-        showFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent favIntent = new Intent(getApplicationContext(), ShowFavouriteActivity.class);
-                startActivity(favIntent);
-            }
-        });
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -140,10 +122,10 @@ public class MainActivity extends AppCompatActivity {
             Fragment chosenFragment = new Fragment();
             switch (position)
             {
-                case 0: chosenFragment = buyFragment;
+                case 0: chosenFragment = sellFragment;
                     break;
 
-                case 1: chosenFragment = sellFragment;
+                case 1: chosenFragment = buyFragment;
                     break;
 
                 case 2: chosenFragment = searchFragment;
@@ -162,9 +144,9 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Buy";
-                case 1:
                     return "Sell";
+                case 1:
+                    return "Buy";
                 case 2:
                     return "Search";
             }

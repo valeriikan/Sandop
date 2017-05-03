@@ -1,6 +1,7 @@
 package fi.oulu.mobisocial.sandop;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -9,10 +10,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,15 +36,12 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import fi.oulu.mobisocial.sandop.helpers.Product;
 
 import static android.R.attr.cacheColorHint;
 import static android.R.attr.type;
-
-/**
- * Created by Majid on 4/26/2017.
- */
 
 public class NewAdvertismentActivity extends AppCompatActivity {
 
@@ -61,6 +61,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
     //declaration of edit texts
     EditText etName;
     EditText etPrice;
+    EditText etDate;
     EditText etDesc;
 
     //declaration of text views
@@ -71,6 +72,23 @@ public class NewAdvertismentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_advertisment);
         setTitle("New Advertisment");
+
+        // getting current date to show it in DatePickerDialog
+        String month, day;
+        final Calendar cal = Calendar.getInstance();
+        final int currentYear = cal.get(Calendar.YEAR);
+        final int currentMonth = cal.get(Calendar.MONTH);
+        final int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+        if (currentMonth < 10) {
+            month = 0 + String.valueOf(currentMonth+ 1);
+        } else {
+            month = String.valueOf(currentMonth + 1);
+        }
+        if (currentDay < 10) {
+            day = 0 + String.valueOf(currentDay);
+        } else {
+            day = String.valueOf(currentDay);
+        }
 
         //declaration of textviews
         tvImagePath = (TextView) findViewById(R.id.tvAdImagePath);
@@ -85,17 +103,29 @@ public class NewAdvertismentActivity extends AppCompatActivity {
         etName = (EditText) findViewById(R.id.etAdName);
         etPrice = (EditText) findViewById(R.id.etAdPrice);
         etDesc = (EditText) findViewById(R.id.etAdDescription);
+        etDate = (EditText) findViewById(R.id.etAdDate);
 
         //declaration of submit button and its action
         Button btnSubmit = (Button) findViewById(R.id.btnAdSubmit);
         Button btnUploadImage = (Button) findViewById(R.id.btnLoadImage);
+
+        //click listener for available time et
+        etDate.setText(day + "." + month + "." + currentYear);
+        etDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog dialog = new DatePickerDialog(NewAdvertismentActivity.this, datePickerListener,
+                        currentYear, currentMonth, currentDay);
+                dialog.show();
+            }
+        });
 
         //click listener for submit button
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (spDep.getSelectedItemPosition() >= 0 && spCat.getSelectedItemPosition() >= 0 && spCity.getSelectedItemPosition() >= 0) {
-                    if (!etName.getText().equals("") && !etPrice.getText().equals("") && !etDesc.getText().equals("")) {
+                    if (!etName.getText().equals("") && !etPrice.getText().equals("") && !etDate.getText().equals("") && !etDesc.getText().equals("")) {
                         switch (spType.getSelectedItem().toString())
                         {
                             case "sell": addNewSellAdvertisment(imagePath);
@@ -105,10 +135,10 @@ public class NewAdvertismentActivity extends AppCompatActivity {
                         }
 
                     } else
-                        Toast.makeText(getApplicationContext(), "One of fields is empty! please fill them all and try again", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "One of fields is empty! Please fill them all and try again", Toast.LENGTH_LONG).show();
                 }
                 else
-                    Toast.makeText(getApplicationContext(), "Department or Category is not selected! please specify them and try again", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Department or Category is not selected! Please specify them and try again", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -152,7 +182,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
     private void setTypeItems()
     {
         String[] types = {"sell","buy"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,types);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewAdvertismentActivity.this, android.R.layout.simple_spinner_item,types);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spType.setAdapter(adapter);
     }
@@ -229,7 +259,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
     }
 
     private String setAttributesAndInsert(final String type, final String name, final String city,
-                                         final String image, final String price,
+                                         final String image, final String price, final String date,
                                          final String description, final String department, final String category)
     {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -240,7 +270,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String userName = dataSnapshot.child("name").getValue(String.class);
                 DatabaseReference childRef = FirebaseDatabase.getInstance().getReference().child("products").child(type);
-                Product newProduct = new Product(userName, name, city, image, price, description, department, category);
+                Product newProduct = new Product(userName, name, city, image, price, date, description, department, category);
                 childRef.push().setValue(newProduct);
                 finish();
             }
@@ -268,7 +298,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             imagePath = cursor.getString(columnIndex);
             cursor.close();
-            tvImagePath.setText("product image location: " + imagePath);
+            tvImagePath.setText("Image location: " + imagePath);
         }
     }
 
@@ -311,7 +341,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 @SuppressWarnings("VisibleForTests") Uri productImageURL = taskSnapshot.getDownloadUrl();
 
-                String type, department, category, name, owner, price, city, description, image;
+                String type, department, category, name, owner, price, city, description, image, date;
 
                 type = spType.getSelectedItem().toString();
                 department = spDep.getSelectedItem().toString();
@@ -320,17 +350,19 @@ public class NewAdvertismentActivity extends AppCompatActivity {
                 image = productImageURL.toString();
                 owner = "";
                 price = etPrice.getText().toString();
+                date = etDate.getText().toString();
+
                 city = spCity.getSelectedItem().toString();
                 description = etDesc.getText().toString();
 
                 if (type.equals("buy")) image = "https://firebasestorage.googleapis.com/v0/b/sandop-7935b.appspot.com/o/images%2Fwanted.jpg?alt=media&token=e51ba39a-73a0-4b39-a1eb-43e50311deb4";
-                setAttributesAndInsert(type, name, city, image, price, description, department, category);
+                setAttributesAndInsert(type, name, city, image, price, date, description, department, category);
             }
         });
     }
 
     private void addNewBuyAdvertisment() {
-        String department, category, name, owner, price, city, description, image;
+        String department, category, name, owner, price, date, city, description, image;
 
         department = spDep.getSelectedItem().toString();
         category = spCat.getSelectedItem().toString();
@@ -338,18 +370,22 @@ public class NewAdvertismentActivity extends AppCompatActivity {
         image = "https://firebasestorage.googleapis.com/v0/b/sandop-7935b.appspot.com/o/images%2Fwanted.jpg?alt=media&token=e51ba39a-73a0-4b39-a1eb-43e50311deb4";
         owner = "";
         price = etPrice.getText().toString();
+        date = etDate.getText().toString();
         city = spCity.getSelectedItem().toString();
         description = etDesc.getText().toString();
 
-        setAttributesAndInsert("buy", name, city, image, price, description, department, category);
+        setAttributesAndInsert("buy", name, city, image, price, date, description, department, category);
     }
     private void disableUploadImage(Spinner spinner, final Button button)
     {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getSelectedItem().equals("buy")) button.setEnabled(false);
-                else button.setEnabled(true);
+                if (parent.getSelectedItem().equals("buy")) {
+                    button.setVisibility(View.INVISIBLE);
+                    tvImagePath.setText("");
+                }
+                else button.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -358,4 +394,29 @@ public class NewAdvertismentActivity extends AppCompatActivity {
             }
         });
     }
+
+    // set value to tripYear, tripMonth, tripDay
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+
+            String tripYear, tripMonth, tripDay;
+            tripYear = String.valueOf(selectedYear);
+            if (selectedMonth < 10) {
+                tripMonth = 0 + String.valueOf(selectedMonth + 1);
+            } else {
+                tripMonth = String.valueOf(selectedMonth + 1);
+            }
+
+            if (selectedDay < 10) {
+                tripDay = 0 + String.valueOf(selectedDay);
+            } else {
+                tripDay = String.valueOf(selectedDay);
+            }
+
+            etDate.setText(tripDay + "." + tripMonth + "." + tripYear);
+        }
+    };
+
 }

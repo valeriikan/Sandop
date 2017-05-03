@@ -13,6 +13,7 @@ public class Product {
     private String city;
     private String image;
     private String price;
+    private String date;
     private String description;
     private String department;
     private String type;
@@ -24,18 +25,20 @@ public class Product {
         city = "";
         image = "";
         price = "";
+        date = "";
         description = "";
         department = "";
         type = "";
     }
     public Product(String pOwner, String pName, String pCity,
-                   String pImage, String pPrice, String pDescription, String pDepartment, String pType)
+                   String pImage, String pPrice, String pDate, String pDescription, String pDepartment, String pType)
     {
         owner = pOwner;
         name = pName;
         city = pCity;
         image = pImage;
         price = pPrice;
+        date = pDate;
         description = pDescription;
         department = pDepartment;
         type = pType;
@@ -57,6 +60,10 @@ public class Product {
     public String getPrice()
     {
         return price;
+    }
+    public String getDate()
+    {
+        return date;
     }
     public String getDescription()
     {
@@ -80,6 +87,10 @@ public class Product {
     public void setPrice(String pPrice)
     {
         price = pPrice;
+    }
+    public void setDate(String pDate)
+    {
+        date = pDate;
     }
     public void setDescription(String pDescription)
     {
@@ -106,7 +117,10 @@ public class Product {
                             {
                                 if (product.getPrice().equals(price))
                                 {
-                                    if (product.getType().equals(type)) state = true;
+                                    if (product.getDate().equals(date))
+                                    {
+                                        if (product.getType().equals(type)) state = true;
+                                    }
                                 }
                             }
                         }

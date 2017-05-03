@@ -2,10 +2,13 @@ package fi.oulu.mobisocial.sandop;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -41,6 +44,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
@@ -115,6 +119,18 @@ public class LoginActivity extends AppCompatActivity {
                 // ...
             }
         });
+
+        // welcome info dialog
+        AlertDialog welcomeDialog = new AlertDialog.Builder(this).create();
+        welcomeDialog.setTitle(R.string.welcomeDialog);
+        welcomeDialog.setMessage(getResources().getString(R.string.welcomeDialogText));
+        welcomeDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        welcomeDialog.show();
 
         //attaching layout elements to variables
         imgFacebook = (ImageView) findViewById(R.id.imgFacebook);
@@ -361,7 +377,27 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.wtf("myTag", "signInWithCredential:onComplete:" + task.isSuccessful());
 
-                        String username = mAuth.getCurrentUser().getDisplayName();;
+                        String displayName=null;
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            // User is signed in
+                            displayName = user.getDisplayName();
+                            Uri profileUri = user.getPhotoUrl();
+
+                            // If the above were null, iterate the provider data
+                            // and set with the first non null data
+                            for (UserInfo userInfo : user.getProviderData()) {
+                                if (displayName == null && userInfo.getDisplayName() != null) {
+                                    displayName = userInfo.getDisplayName();
+                                }
+                                if (profileUri == null && userInfo.getPhotoUrl() != null) {
+                                    profileUri = userInfo.getPhotoUrl();
+                                }
+                            }
+                        }
+
+                        String username = displayName;
+                        //Log.wtf("myTag", username);
                         String userId = mAuth.getCurrentUser().getUid();
                         String facebookId = "";
                         // find the Facebook profile and get the user's id

@@ -1,160 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="20dp"
-            android:text="Name" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/etAdName"
-            android:layout_marginTop="20dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="30dp"
-            android:text="City" />
-
-        <Spinner
-            android:id="@+id/spAdCity"
-            android:layout_width="134dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="30dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="30dp"
-            android:text="Price" />
-
-        <EditText
-            android:layout_width="116dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/etAdPrice"
-            android:layout_marginTop="30dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="30dp"
-            android:text="Advertisment Type" />
-
-        <Spinner
-            android:id="@+id/spAdType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="30dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="30dp"
-            android:text="Product Department" />
-
-        <Spinner
-            android:id="@+id/spAdDepartment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="30dp"
-            android:text="Product Category" />
-
-        <Spinner
-            android:id="@+id/spAdCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="30dp" />
-    </LinearLayout>
-
-
+    tools:context="fi.oulu.mobisocial.sandop.NewAdvertismentActivity"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp">
 
     <TextView
+        android:id="@+id/tvTextName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="20dp"
-        android:text="Description" />
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="Product name: "/>
+
+    <EditText
+        android:id="@+id/etAdName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/tvTextName"
+        android:inputType="text"/>
+
+    <TextView
+        android:id="@+id/tvTextType"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="I want to: "
+        android:layout_above="@+id/tvTextDepartment"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:id="@+id/spAdType"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/tvTextDepartment"
+        android:layout_toRightOf="@+id/tvTextCategory"
+        android:layout_toEndOf="@+id/tvTextCategory" />
+
+    <TextView
+        android:id="@+id/tvTextCity"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvTextName"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/spAdCity"
+        android:gravity="center_vertical"
+        android:text="City: "/>
+
+    <Spinner
+        android:id="@+id/spAdCity"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvTextName"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/tvTextDepartment"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvTextCity"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:text="Department: "/>
+
+    <Spinner
+        android:id="@+id/spAdDepartment"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvTextCity"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/tvTextName" />
+
+    <TextView
+        android:id="@+id/tvTextCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvTextDepartment"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:text="Category: "/>
+
+    <Spinner
+        android:id="@+id/spAdCategory"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvTextDepartment"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/tvTextName" />
+
+    <TextView
+        android:id="@+id/tvTextPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvTextCategory"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:text="Price: "/>
+
+    <EditText
+        android:id="@+id/etAdPrice"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvTextCategory"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/tvTextPrice"
+        android:layout_toLeftOf="@+id/tvTextEuro"
+        android:gravity="right"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/tvTextEuro"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvTextCategory"
+        android:layout_marginTop="5dp"
+        android:layout_alignRight="@+id/spAdType"
+        android:gravity="center_vertical"
+        android:text="€"/>
+
+    <TextView
+        android:id="@+id/tvTextAvailable"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvTextCategory"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/etAdDate"
+        android:gravity="center_vertical"
+        android:text="Available: "/>
+
+    <EditText
+        android:id="@+id/etAdDate"
+        android:layout_width="110dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvTextCategory"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentRight="true"
+        android:gravity="center_horizontal"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
+
+    <TextView
+        android:id="@+id/tvTextDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvTextPrice"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:text="Description: "/>
 
     <EditText
         android:id="@+id/etAdDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.87"
-        android:ems="10"
+        android:layout_below="@+id/tvTextDescription"
+        android:layout_above="@+id/tvAdImagePath"
+        android:gravity="bottom"
         android:inputType="textMultiLine" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btnLoadImage"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1">
-        <Button
-            android:layout_width="166dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnAdSubmit"
-            android:text="Submit"
-            android:layout_weight="1.10" />
-
-        <Button
-            android:id="@+id/btnLoadImage"
-            android:layout_width="197dp"
-            android:layout_height="wrap_content"
-            android:text="Upload Image" />
-
-    </LinearLayout>
+        android:layout_above="@+id/btnAdSubmit"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/view_button"
+        android:textColor="#000000"
+        android:text="Upload image"/>
 
     <TextView
         android:id="@+id/tvAdImagePath"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:layout_above="@id/btnLoadImage" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btnAdSubmit"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/view_button"
+        android:textColor="#000000"
+        android:text="Submit"/>
+
+</RelativeLayout>

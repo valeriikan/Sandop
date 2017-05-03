@@ -34,23 +34,28 @@ import java.util.ArrayList;
 
 import fi.oulu.mobisocial.sandop.R;
 
-public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClickListener{
+import static android.R.id.list;
+
+public class ProductAdapter extends ArrayAdapter<Product> implements View.OnClickListener{
 
     private ArrayList<Product> dataSet;
     private Context mContext;
 
     // View lookup cache
     private static class ViewHolder {
+        int position;
         TextView tvName;
         TextView tvCity;
         TextView tvOwner;
         TextView tvPrice;
-        TextView tvDescription;
+        TextView tvDate;
         ImageView ivImage;
         ImageButton ibtnFav;
 
         public ViewHolder()
-        {}
+        {
+            //position = 0;
+        }
 
         public ViewHolder(View v)
         {
@@ -58,14 +63,15 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
             this.tvCity = (TextView) v.findViewById(R.id.tvProductCity);
             this.tvOwner = (TextView) v.findViewById(R.id.tvProductOwner);
             this.tvPrice = (TextView) v.findViewById(R.id.tvProductPrice);
-            this.tvDescription = (TextView) v.findViewById(R.id.tvProductDescription);
+            this.tvDate = (TextView) v.findViewById(R.id.tvProductDate);
             this.ivImage = (ImageView) v.findViewById(R.id.ivProductImage);
             this.ibtnFav = (ImageButton) v.findViewById(R.id.ibtnFavourite);
+
         }
     }
 
-    public CustomAdapter(ArrayList<Product> data, Context context) {
-        super(context, R.layout.row_model, data);
+    public ProductAdapter(ArrayList<Product> data, Context context) {
+        super(context, R.layout.row_product, data);
         this.dataSet = data;
         this.mContext=context;
     }
@@ -82,7 +88,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
     private int lastPosition = -1;
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
         // Get the data item for this position
         Product dataModel = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
@@ -94,17 +100,15 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.row_model, parent, false);
+            convertView = inflater.inflate(R.layout.row_product, parent, false);
             viewHolder.tvName = (TextView) convertView.findViewById(R.id.tvProductName);
             viewHolder.tvCity = (TextView) convertView.findViewById(R.id.tvProductCity);
             viewHolder.tvOwner = (TextView) convertView.findViewById(R.id.tvProductOwner);
             viewHolder.tvPrice = (TextView) convertView.findViewById(R.id.tvProductPrice);
-            viewHolder.tvDescription = (TextView) convertView.findViewById(R.id.tvProductDescription);
+            viewHolder.tvDate = (TextView) convertView.findViewById(R.id.tvProductDate);
             viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivProductImage);
             viewHolder.ibtnFav = (ImageButton) convertView.findViewById(R.id.ibtnFavourite);
-            setFavStatus(viewHolder, dataSet.get(position));
-            viewHolder.ibtnFav.setTag(position);
-
+            viewHolder.position = position;
             result = convertView;
 
             convertView.setTag(viewHolder);
@@ -112,7 +116,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
             viewHolder = (ViewHolder) convertView.getTag();
             result = convertView;
         }
-
+        //setFavouriteStatus(viewHolder, dataSet.get(position));
         Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
         result.startAnimation(animation);
         lastPosition = position;
@@ -121,24 +125,22 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
         viewHolder.tvName.setText(dataModel.getName());
         viewHolder.tvCity.setText("City: " + dataModel.getCity());
         viewHolder.tvOwner.setText("Owner: " + dataModel.getOwner());
-        viewHolder.tvPrice.setText("Price : " + dataModel.getPrice() + " euro(s)");
-        viewHolder.tvDescription.setText("Description: " + dataModel.getDescription());
+        viewHolder.tvPrice.setText("Price : " + dataModel.getPrice() + " €");
+        viewHolder.tvDate.setText("Available: " + dataModel.getDate());
         Picasso.with(getContext()).load(dataModel.getImage()).resize(100,100).into(viewHolder.ivImage);
 
-        viewHolder.ivImage.setOnClickListener(this);
-        viewHolder.ivImage.setTag(position);
         // Return the completed view to render on screen
-
+        setFavouriteStatus(viewHolder, dataModel);
         viewHolder.ibtnFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = (Integer) v.getTag();
-                Product product = (Product) getItem(position);
+                //int position = (Integer) v.getTag();
+                Log.i("onClick", String.valueOf(viewHolder.position));
+                Product product = (Product) getItem(viewHolder.position);
                 addToFavourite(product, viewHolder);
-
             }
         });
-        return convertView;
+        return result;
     }
 
     private void addToFavourite(final Product product, final ViewHolder holder)
@@ -159,7 +161,6 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
                     if (inFavProduct.isEqual(product)) {
                         isExisted = true;
                         dbRef.child(key).removeValue();
-                        //Toast.makeText(getContext(), "You have already added this product to your favourite list", Toast.LENGTH_SHORT).show();
                         holder.ibtnFav.setImageResource(R.drawable.empty_star);
                         break;
                     }
@@ -178,7 +179,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
         });
     }
 
-    private void setFavStatus(final ViewHolder holder , final Product product)
+    private void setFavouriteStatus(final ViewHolder holder , final Product product)
     {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String userID = auth.getCurrentUser().getUid().toString();
@@ -186,7 +187,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
 
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID).child("favourite");
 
-        dbRef.addValueEventListener(new ValueEventListener() {
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean isExisted = false;

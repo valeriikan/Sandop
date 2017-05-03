@@ -1,10 +1,20 @@
 <resources>
     <string name="app_name">Sandop</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Sandop</string>
     <string name="action_settings">Settings</string>
+
     <string name="noInternet">Your internet connection is turned off</string>
+    <string name="emptyComment">Write your comment first</string>
+    <string name="welcomeDialog">Welcome to Sandop</string>
+    <string name="welcomeDialogText">Second hand shop application that will help sell your goods or purchase it from other users
+        \n\nPlease sign up to continue</string>
 
     <string name="facebook_app_id">1241054082660478</string>
     <string name="facebook_provider_id">facebook.com</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
