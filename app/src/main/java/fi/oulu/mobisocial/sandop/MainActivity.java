@@ -15,13 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle(R.string.app_name);
 
         //Firebase elements declaration
         mAuth = FirebaseAuth.getInstance();
@@ -47,15 +42,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Add new onClick for imagebutton in toolbar
-        ImageButton showFav = (ImageButton) findViewById(R.id.ibtnShowMyFavourite);
-        showFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent favIntent = new Intent(getApplicationContext(), ShowFavouriteActivity.class);
-                startActivity(favIntent);
-            }
-        });
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -111,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.action_profile:
                 // open user profile page
-                Intent profile = new Intent(MainActivity.this, Profile2Activity.class);
+                Intent profile = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(profile);
                 break;
         }

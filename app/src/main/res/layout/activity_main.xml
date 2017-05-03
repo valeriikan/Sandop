@@ -38,16 +38,6 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <ImageButton
-                android:id="@+id/ibtnShowMyFavourite"
-                style="@android:style/Widget.DeviceDefault.ImageButton"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="right"
-                android:layout_weight="0.27"
-                android:background="@drawable/com_facebook_auth_dialog_cancel_background"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/favorites_icon"/>
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout

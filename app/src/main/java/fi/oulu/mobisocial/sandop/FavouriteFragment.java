@@ -38,7 +38,7 @@ public class FavouriteFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_favourite, container, false);
 
-        ListView searchList = (ListView) v.findViewById(R.id.lvSearch1);
+        ListView searchList = (ListView) v.findViewById(R.id.lvSearch);
         loadMyFavouriteItems(searchList);
 
         return v;
@@ -79,24 +79,5 @@ public class FavouriteFragment extends Fragment {
 
             }
         });
-
-        /*dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Product> list = new ArrayList<Product>();
-                for (DataSnapshot ds : dataSnapshot.getChildren())
-                {
-                    list.add(ds.getValue(Product.class));
-                }
-                ProductAdapter adapter = new ProductAdapter(list, getActivity());
-                listView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
     }
-
 }

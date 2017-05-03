@@ -43,7 +43,7 @@ public class MyProductFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_product, container, false);
 
-        lvUserOffers = (ListView) v.findViewById(R.id.lvUserOffers1);
+        lvUserOffers = (ListView) v.findViewById(R.id.lvUserOffers);
         lvUserOffers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -138,6 +138,4 @@ public class MyProductFragment extends Fragment {
             }
         });
     }
-
-
 }

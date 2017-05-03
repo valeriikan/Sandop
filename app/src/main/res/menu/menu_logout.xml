@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="fi.oulu.mobisocial.sandop.Profile2Activity">
+    tools:context="fi.oulu.mobisocial.sandop.ProfileActivity">
     <item
         android:id="@+id/action_out"
         android:orderInCategory="100"
