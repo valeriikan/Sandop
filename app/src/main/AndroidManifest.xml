@@ -37,8 +37,12 @@
 
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ProductActivity" />
-		<activity android:name=".ShowFavouriteActivity" />
+        <activity android:name=".ShowFavouriteActivity" />
         <activity android:name=".UserOffersActivity" />
+        <activity
+            android:name=".Profile2Activity"
+            android:label="@string/title_activity_profile2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

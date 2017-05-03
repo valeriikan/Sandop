@@ -56,17 +56,7 @@ public class SellFragment extends Fragment{
         });
 
         sandOppDB = FirebaseDatabase.getInstance().getReference().child("products").child("sell");
-        sandOppDB.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                loadItemsToListView(dataSnapshot, productListView);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
         return v;
     }
 
@@ -84,6 +74,22 @@ public class SellFragment extends Fragment{
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sandOppDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                loadItemsToListView(dataSnapshot, productListView);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void loadItemsToListView(DataSnapshot dataSnapshot, ListView listView)

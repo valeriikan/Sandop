@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import fi.oulu.mobisocial.sandop.helpers.ProductAdapter;
 import fi.oulu.mobisocial.sandop.helpers.Product;
 
-/**
- * Created by Majid on 4/29/2017.
- */
 
 public class ShowFavouriteActivity extends AppCompatActivity{
 

@@ -1,7 +1,5 @@
 package fi.oulu.mobisocial.sandop;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -13,14 +11,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     //Firebase authentication objects
     FirebaseAuth mAuth;
 
-    public static ListView productsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.action_profile:
                 // open user profile page
-                Intent profile = new Intent(MainActivity.this, ProfileActivity.class);
+                Intent profile = new Intent(MainActivity.this, Profile2Activity.class);
                 startActivity(profile);
                 break;
         }
