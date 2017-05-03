@@ -13,7 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import fi.oulu.mobisocial.sandop.helpers.CustomAdapter;
+import fi.oulu.mobisocial.sandop.helpers.ProductAdapter;
 import fi.oulu.mobisocial.sandop.helpers.Product;
 
 /**
@@ -47,7 +47,7 @@ public class ShowFavouriteActivity extends AppCompatActivity{
                 {
                     list.add(ds.getValue(Product.class));
                 }
-                CustomAdapter adapter = new CustomAdapter(list, ShowFavouriteActivity.this);
+                ProductAdapter adapter = new ProductAdapter(list, ShowFavouriteActivity.this);
                 listView.setAdapter(adapter);
             }
 

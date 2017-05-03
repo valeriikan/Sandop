@@ -3,7 +3,6 @@ package fi.oulu.mobisocial.sandop;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import fi.oulu.mobisocial.sandop.helpers.CustomAdapter;
+import fi.oulu.mobisocial.sandop.helpers.ProductAdapter;
 import fi.oulu.mobisocial.sandop.helpers.Product;
 
-import static android.R.attr.category;
 import static fi.oulu.mobisocial.sandop.R.id.spDepartment;
 
 
@@ -258,7 +256,7 @@ public class SearchFragment extends Fragment {
             }
         }
 
-        CustomAdapter adapter = new CustomAdapter(searchList,getContext());
+        ProductAdapter adapter = new ProductAdapter(searchList,getContext());
         listView.setAdapter(adapter);
     }
 }

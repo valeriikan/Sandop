@@ -8,12 +8,15 @@
 
     <RelativeLayout
         android:id="@+id/productContent"
-        android:visibility="invisible"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_centerHorizontal="true">
+        android:layout_marginBottom="3dp"
+        android:layout_centerHorizontal="true"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true">
 
         <ImageView
             android:id="@+id/imgProduct"
@@ -21,59 +24,92 @@
             android:layout_height="220dp"
             android:adjustViewBounds="true"
             android:layout_marginTop="5dp"/>
+
+        <RelativeLayout
+            android:id="@+id/layoutDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgProduct">
+
+            <TextView
+                android:id="@+id/tvDetailName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Product name"/>
+
+            <TextView
+                android:id="@+id/tvDetailCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDetailName"
+                android:text="City"/>
+
+            <TextView
+                android:id="@+id/tvDetailSince"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDetailName"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:text="After 02.05.17"/>
+
+            <TextView
+                android:id="@+id/tvDetailOwner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDetailCity"
+                android:text="Owner"/>
+
+            <TextView
+                android:id="@+id/tvDetailPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDetailCity"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:text="Price"/>
+
+            <TextView
+                android:id="@+id/tvDetailDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDetailOwner"
+                android:text="Description"/>
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/lvComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:layout_below="@+id/layoutDetails"
+            android:layout_above="@+id/etComment">
+        </ListView>
         
-        <TextView
-            android:id="@+id/tvDetailName"
+        <EditText
+            android:id="@+id/etComment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/imgProduct"
-            android:text="Product name"/>
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/btnComment"
+            android:layout_toStartOf="@+id/btnComment"
+            android:inputType="text"
+            android:hint=" add a comment" />
 
-
-        <TextView
-            android:id="@+id/tvDetailDepartmentType"
+        <Button
+            android:id="@+id/btnComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvDetailName"
-            android:text="Department - type"/>
-
-        <TextView
-            android:id="@+id/tvDetailCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvDetailDepartmentType"
-            android:text="City"/>
-
-        <TextView
-            android:id="@+id/tvDetailSince"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvDetailDepartmentType"
+            android:layout_marginBottom="100dp"
+            android:text="comment"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:text="After 02.05.17"/>
-
-        <TextView
-            android:id="@+id/tvDetailOwner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvDetailCity"
-            android:text="Owner"/>
-
-        <TextView
-            android:id="@+id/tvDetailPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvDetailCity"
-            android:layout_alignParentRight="true"
-            android:text="Price"/>
-
-        <TextView
-            android:id="@+id/tvDetailDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvDetailOwner"
-            android:text="Description"/>
-
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/view_button"/>
 
     </RelativeLayout>
 

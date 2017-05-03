@@ -2,7 +2,9 @@
     <string name="app_name">Sandop</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
+
     <string name="noInternet">Your internet connection is turned off</string>
+    <string name="emptyComment">Write your comment first</string>
 
     <string name="facebook_app_id">1241054082660478</string>
     <string name="facebook_provider_id">facebook.com</string>

@@ -5,14 +5,9 @@ package fi.oulu.mobisocial.sandop.helpers;
  */
 
 import android.content.Context;
-import android.graphics.drawable.Icon;
 import android.view.View;
 
-import android.content.Context;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +28,7 @@ import java.util.ArrayList;
 
 import fi.oulu.mobisocial.sandop.R;
 
-public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClickListener{
+public class ProductAdapter extends ArrayAdapter<Product> implements View.OnClickListener{
 
     private ArrayList<Product> dataSet;
     private Context mContext;
@@ -64,8 +58,8 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
         }
     }
 
-    public CustomAdapter(ArrayList<Product> data, Context context) {
-        super(context, R.layout.row_model, data);
+    public ProductAdapter(ArrayList<Product> data, Context context) {
+        super(context, R.layout.row_product, data);
         this.dataSet = data;
         this.mContext=context;
     }
@@ -94,7 +88,7 @@ public class CustomAdapter extends ArrayAdapter<Product> implements View.OnClick
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.row_model, parent, false);
+            convertView = inflater.inflate(R.layout.row_product, parent, false);
             viewHolder.tvName = (TextView) convertView.findViewById(R.id.tvProductName);
             viewHolder.tvCity = (TextView) convertView.findViewById(R.id.tvProductCity);
             viewHolder.tvOwner = (TextView) convertView.findViewById(R.id.tvProductOwner);
