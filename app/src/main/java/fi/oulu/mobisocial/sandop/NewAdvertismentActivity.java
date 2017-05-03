@@ -182,7 +182,7 @@ public class NewAdvertismentActivity extends AppCompatActivity {
     private void setTypeItems()
     {
         String[] types = {"sell","buy"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,types);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewAdvertismentActivity.this, android.R.layout.simple_spinner_item,types);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spType.setAdapter(adapter);
     }

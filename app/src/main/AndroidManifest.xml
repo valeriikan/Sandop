@@ -35,7 +35,8 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".ProductActivity" />
+        <activity android:name=".ProductActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"

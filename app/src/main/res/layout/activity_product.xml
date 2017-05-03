@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:id="@+id/productContent"
-
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -75,6 +75,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvDetailOwner"
                 android:text="Description"/>
+
+            <View
+                android:id="@+id/lineBetween"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#cccccc"
+                android:layout_below="@id/tvDetailDescription"
+                android:layout_marginTop="8dp"/>
 
         </RelativeLayout>
 

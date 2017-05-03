@@ -1,6 +1,7 @@
 package fi.oulu.mobisocial.sandop;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ public class SearchFragment extends Fragment {
 
     //a reference to firebase DB
     DatabaseReference dbRef;
+    private ArrayList<String> link = new ArrayList<>();
 
     public SearchFragment() {
         // Required empty public constructor
@@ -61,6 +63,15 @@ public class SearchFragment extends Fragment {
 
         //declaration of view components inside search layout
         final ListView lvSearch = (ListView) v.findViewById(R.id.lvSearchedItems);
+        lvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String ref = link.get(i);
+                Intent intent = new Intent(getContext(), ProductActivity.class);
+                intent.putExtra("PRODUCT", ref);
+                startActivity(intent);
+            }
+        });
         spDepartments = (Spinner) v.findViewById(spDepartment);
         spCategory = (Spinner) v.findViewById(R.id.spCategory);
         spCity = (Spinner) v.findViewById(R.id.spCity);
@@ -103,6 +114,19 @@ public class SearchFragment extends Fragment {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        DatabaseReference initialCityRef = dbRef.child("products").child("sell");
+        initialCityRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                loadItemsToSpinnerbyProduct(dataSnapshot, spCity);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -252,6 +276,7 @@ public class SearchFragment extends Fragment {
             if (department.equals(product.getDepartment()) && category.equals(product.getType())
                     && city.equals(product.getCity()))
             {
+                link.add("sell/" + ds.getKey());
                 searchList.add(product);
             }
         }

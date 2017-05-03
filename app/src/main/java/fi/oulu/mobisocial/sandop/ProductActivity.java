@@ -35,6 +35,7 @@ import fi.oulu.mobisocial.sandop.helpers.Comment;
 import fi.oulu.mobisocial.sandop.helpers.CommentAdapter;
 import fi.oulu.mobisocial.sandop.helpers.ProductAdapter;
 import fi.oulu.mobisocial.sandop.helpers.Product;
+import fi.oulu.mobisocial.sandop.helpers.RoundedCornersTransform;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -115,7 +116,8 @@ public class ProductActivity extends AppCompatActivity {
                 tvDetailOwner.setText(owner);
                 tvDetailPrice.setText(price);
                 tvDetailDescription.setText(description);
-                Picasso.with(ProductActivity.this).load(imageUrl).fit().transform(new CircleTransform()).into(imgProduct, callback);
+                Picasso.with(ProductActivity.this).load(imageUrl).fit().centerCrop().
+                        transform(new RoundedCornersTransform(50,10)).into(imgProduct, callback);
             }
 
             @Override
