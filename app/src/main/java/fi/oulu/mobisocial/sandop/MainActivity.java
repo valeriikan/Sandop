@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle(R.string.app_name);
 
         //Firebase elements declaration
         mAuth = FirebaseAuth.getInstance();
@@ -140,10 +141,10 @@ public class MainActivity extends AppCompatActivity {
             Fragment chosenFragment = new Fragment();
             switch (position)
             {
-                case 0: chosenFragment = buyFragment;
+                case 0: chosenFragment = sellFragment;
                     break;
 
-                case 1: chosenFragment = sellFragment;
+                case 1: chosenFragment = buyFragment;
                     break;
 
                 case 2: chosenFragment = searchFragment;
@@ -162,9 +163,9 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Buy";
-                case 1:
                     return "Sell";
+                case 1:
+                    return "Buy";
                 case 2:
                     return "Search";
             }

@@ -39,7 +39,7 @@ public class ProductAdapter extends ArrayAdapter<Product> implements View.OnClic
         TextView tvCity;
         TextView tvOwner;
         TextView tvPrice;
-        TextView tvDescription;
+        TextView tvDate;
         ImageView ivImage;
         ImageButton ibtnFav;
 
@@ -52,7 +52,7 @@ public class ProductAdapter extends ArrayAdapter<Product> implements View.OnClic
             this.tvCity = (TextView) v.findViewById(R.id.tvProductCity);
             this.tvOwner = (TextView) v.findViewById(R.id.tvProductOwner);
             this.tvPrice = (TextView) v.findViewById(R.id.tvProductPrice);
-            this.tvDescription = (TextView) v.findViewById(R.id.tvProductDescription);
+            this.tvDate = (TextView) v.findViewById(R.id.tvProductDate);
             this.ivImage = (ImageView) v.findViewById(R.id.ivProductImage);
             this.ibtnFav = (ImageButton) v.findViewById(R.id.ibtnFavourite);
         }
@@ -93,7 +93,7 @@ public class ProductAdapter extends ArrayAdapter<Product> implements View.OnClic
             viewHolder.tvCity = (TextView) convertView.findViewById(R.id.tvProductCity);
             viewHolder.tvOwner = (TextView) convertView.findViewById(R.id.tvProductOwner);
             viewHolder.tvPrice = (TextView) convertView.findViewById(R.id.tvProductPrice);
-            viewHolder.tvDescription = (TextView) convertView.findViewById(R.id.tvProductDescription);
+            viewHolder.tvDate = (TextView) convertView.findViewById(R.id.tvProductDate);
             viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivProductImage);
             viewHolder.ibtnFav = (ImageButton) convertView.findViewById(R.id.ibtnFavourite);
             setFavStatus(viewHolder, dataSet.get(position));
@@ -115,8 +115,8 @@ public class ProductAdapter extends ArrayAdapter<Product> implements View.OnClic
         viewHolder.tvName.setText(dataModel.getName());
         viewHolder.tvCity.setText("City: " + dataModel.getCity());
         viewHolder.tvOwner.setText("Owner: " + dataModel.getOwner());
-        viewHolder.tvPrice.setText("Price : " + dataModel.getPrice() + " euro(s)");
-        viewHolder.tvDescription.setText("Description: " + dataModel.getDescription());
+        viewHolder.tvPrice.setText("Price : " + dataModel.getPrice() + " €");
+        viewHolder.tvDate.setText("Available: " + dataModel.getDate());
         Picasso.with(getContext()).load(dataModel.getImage()).resize(100,100).into(viewHolder.ivImage);
 
         viewHolder.ivImage.setOnClickListener(this);

@@ -5,6 +5,9 @@
 
     <string name="noInternet">Your internet connection is turned off</string>
     <string name="emptyComment">Write your comment first</string>
+    <string name="welcomeDialog">Welcome to Sandop</string>
+    <string name="welcomeDialogText">Second hand shop application that will help sell your goods or purchase it from other users
+        \n\nPlease sign up to continue</string>
 
     <string name="facebook_app_id">1241054082660478</string>
     <string name="facebook_provider_id">facebook.com</string>
