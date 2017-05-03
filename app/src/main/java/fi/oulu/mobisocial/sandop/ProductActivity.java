@@ -22,9 +22,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 
@@ -113,8 +115,7 @@ public class ProductActivity extends AppCompatActivity {
                 tvDetailOwner.setText(owner);
                 tvDetailPrice.setText(price);
                 tvDetailDescription.setText(description);
-                Picasso.with(ProductActivity.this).load(imageUrl).fit().centerCrop()
-                        .transform(new CircleTransform()).into(imgProduct, callback);
+                Picasso.with(ProductActivity.this).load(imageUrl).fit().transform(new CircleTransform()).into(imgProduct, callback);
             }
 
             @Override

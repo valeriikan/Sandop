@@ -1,8 +1,10 @@
 package fi.oulu.mobisocial.sandop;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -44,6 +46,27 @@ public class ProfileActivity extends AppCompatActivity {
         imgProfileBackground = (ImageView) findViewById(R.id.imgProfileBackground);
         imgProfileBackground.setImageResource(R.drawable.ui_profile_background);
         mainUserpic = (ImageView) findViewById(R.id.profileUserpic);
+
+        //declaration of user's offers and user's favourite buttons
+        Button btnShowOffers = (Button) findViewById(R.id.btnShowUserOffers);
+        Button btnShowFavourite = (Button) findViewById(R.id.btnShowUserFavourite);
+
+        //onClick events for buttons
+        btnShowOffers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), UserOffersActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnShowFavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ShowFavouriteActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //content loading callback
         final Callback callback = new Callback() {
