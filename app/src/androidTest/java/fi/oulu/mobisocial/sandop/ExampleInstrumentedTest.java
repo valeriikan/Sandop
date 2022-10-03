@@ -19,6 +19,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under test.
+        // Test
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("fi.oulu.mobisocial.sandop", appContext.getPackageName());
